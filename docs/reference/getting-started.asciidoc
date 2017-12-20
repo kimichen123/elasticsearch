@@ -479,14 +479,14 @@ DELETE /customer
 
 这个 REST 访问模式在所有的 API 命令中使用十分普遍，简单记住它是掌握 Elasticsearch 的一个好开端。
 
-== Modifying Your Data
+== 修改数据
 
-Elasticsearch provides data manipulation and search capabilities in near real time. By default, you can expect a one second delay (refresh interval) from the time you index/update/delete your data until the time that it appears in your search results. This is an important distinction from other platforms like SQL wherein data is immediately available after a transaction is completed.
+Elasticsearch 支持近实时的数据操作和搜索功能。默认情况下，在执行 索引/更新/删除 数据开始到搜索结果可见大概有一秒的延迟（刷新间隔）。这是与类似 SQL 等其他平台的重要区别，这些平台数据在事务完成是立即可见的。
 
 [float]
-=== Indexing/Replacing Documents
+=== 索引/替换 文档
 
-We've previously seen how we can index a single document. Let's recall that command again:
+回忆一下之前索引文档的命令：
 
 [source,js]
 --------------------------------------------------
@@ -497,7 +497,8 @@ PUT /customer/doc/1?pretty
 --------------------------------------------------
 // CONSOLE
 
-Again, the above will index the specified document into the customer index, with the ID of 1. If we then executed the above command again with a different (or same) document, Elasticsearch will replace (i.e. reindex) a new document on top of the existing one with the ID of 1:
+
+上文将 ID 为 1 的文档索引到 customer 索引，如果我们用另一个新文档执行以上命令，Elasticsearch 会将 ID 为 1 的替换为该新文档：
 
 [source,js]
 --------------------------------------------------
@@ -509,7 +510,7 @@ PUT /customer/doc/1?pretty
 // CONSOLE
 // TEST[continued]
 
-The above changes the name of the document with the ID of 1 from "John Doe" to "Jane Doe". If, on the other hand, we use a different ID, a new document will be indexed and the existing document(s) already in the index remains untouched.
+上文将 ID 为 1 的文档从 "John Doe" 替换为 "Jane Doe"。另一方面，如果我们使用另一个 ID，新文档将会被索引，索引中已经存在的文档将保持不变。
 
 [source,js]
 --------------------------------------------------
@@ -521,11 +522,11 @@ PUT /customer/doc/2?pretty
 // CONSOLE
 // TEST[continued]
 
-The above indexes a new document with an ID of 2.
+上文索引了一个 ID 为 2 的新文档。
 
-When indexing, the ID part is optional. If not specified, Elasticsearch will generate a random ID and then use it to index the document. The actual ID Elasticsearch generates (or whatever we specified explicitly in the previous examples) is returned as part of the index API call.
+当索引文档时，ID 是可选的。如果没有指定，Elasticsearch 会为文档生成一个随机 ID。ELasticsearch 生成的实际 ID（包括上面提显示指定的 ID） 将作为索引 API 调用的一部分而返回。
 
-This example shows how to index a document without an explicit ID:
+下面这个例子展示了索引文档时不显示指定 ID：
 
 [source,js]
 --------------------------------------------------
@@ -537,13 +538,13 @@ POST /customer/doc?pretty
 // CONSOLE
 // TEST[continued]
 
-Note that in the above case, we are using the `POST` verb instead of PUT since we didn't specify an ID.
+注意上例中因为我们没有指定 ID 所有我们使用 `POST` 代替 PUT。
 
-=== Updating Documents
+=== 更新文档
 
-In addition to being able to index and replace documents, we can also update documents. Note though that Elasticsearch does not actually do in-place updates under the hood. Whenever we do an update, Elasticsearch deletes the old document and then indexes a new document with the update applied to it in one shot.
+除了索引和替换文档之外，我们还可以更新文档。 需要注意的是 Elasticsearch 实际上并没有对原文档进行更新。 无论何时我们进行更新操作，Elasticsearch 都会删除旧文档，然后索引一个新文档。
 
-This example shows how to update our previous document (ID of 1) by changing the name field to "Jane Doe":
+下面这个例子演示了将之前的文档（ID 为 1） name 字段更新为  "Jane Doe"：
 
 [source,js]
 --------------------------------------------------
@@ -555,7 +556,7 @@ POST /customer/doc/1/_update?pretty
 // CONSOLE
 // TEST[continued]
 
-This example shows how to update our previous document (ID of 1) by changing the name field to "Jane Doe" and at the same time add an age field to it:
+下面这个例子演示了将之前的文档（ID 为 1） name 字段更新为  "Jane Doe"的同时新增了一个 age 字段：
 
 [source,js]
 --------------------------------------------------
@@ -567,7 +568,7 @@ POST /customer/doc/1/_update?pretty
 // CONSOLE
 // TEST[continued]
 
-Updates can also be performed by using simple scripts. This example uses a script to increment the age by 5:
+可以使用 scripts 执行更新操作。下例使用 script 将 age 增加 5：
 
 [source,js]
 --------------------------------------------------
@@ -579,13 +580,13 @@ POST /customer/doc/1/_update?pretty
 // CONSOLE
 // TEST[continued]
 
-In the above example, `ctx._source` refers to the current source document that is about to be updated.
+上面例子中， `ctx._source` 指的是将被替换的当前源文档。
 
-Elasticsearch provides the ability to update multiple documents given a query condition (like an `SQL UPDATE-WHERE` statement). See {ref}/docs-update-by-query.html[`docs-update-by-query` API]
+Elasticsearch 提供了在查询时更新多个文档的能力（类似 `SQL UPDATE-WHERE`）。详见 {ref}/docs-update-by-query.html[`docs-update-by-query` API]
 
-=== Deleting Documents
+=== 删除文档
 
-Deleting a document is fairly straightforward. This example shows how to delete our previous customer with the ID of 2:
+删除一个文档十分简单。下例演示了如果删除 ID 为 2 的 customer。
 
 [source,js]
 --------------------------------------------------
@@ -594,15 +595,14 @@ DELETE /customer/doc/2?pretty
 // CONSOLE
 // TEST[continued]
 
-See the {ref}/docs-delete-by-query.html[`_delete_by_query` API] to delete all documents matching a specific query.
-It is worth noting that it is much more efficient to delete a whole index
-instead of deleting all documents with the Delete By Query API.
+参考 {ref}/docs-delete-by-query.html[`_delete_by_query` API] 删除特定查询的所有匹配文档。
+需要注意的是删除整个索引比 Delete By Query API 高效的多。
 
-=== Batch Processing
+=== 批处理
 
-In addition to being able to index, update, and delete individual documents, Elasticsearch also provides the ability to perform any of the above operations in batches using the {ref}/docs-bulk.html[`_bulk` API]. This functionality is important in that it provides a very efficient mechanism to do multiple operations as fast as possible with as few network roundtrips as possible.
+除了索引、更新和删除文档外，Elasticsearch 还提供了 {ref}/docs-bulk.html[`_bulk` API] 操作执行上述任何操作的能力。这个功能十分重要，因为它在执行多个操作时提供了一个非常有效的机制，并尽可能减少网络往返。
 
-As a quick example, the following call indexes two documents (ID 1 - John Doe and ID 2 - Jane Doe) in one bulk operation:
+作为一个快速例子，下面用 bulk 操作同时索引了两个文档 （ID 1 - John Doe 和 ID 2 - Jane Doe）。
 
 [source,js]
 --------------------------------------------------
@@ -614,6 +614,7 @@ POST /customer/doc/_bulk?pretty
 --------------------------------------------------
 // CONSOLE
 
+下例使用 bulk 操作更新了第一个文档（ID 为 1）并删除了第二个文档（ID 为 2）。
 This example updates the first document (ID of 1) and then deletes the second document (ID of 2) in one bulk operation:
 
 [source,sh]
@@ -626,9 +627,9 @@ POST /customer/doc/_bulk?pretty
 // CONSOLE
 // TEST[continued]
 
-Note above that for the delete action, there is no corresponding source document after it since deletes only require the ID of the document to be deleted.
+注意到上面的删除行为，因为删除只需要文档 ID 所以这里没有相应的源文档。
 
-The Bulk API does not fail due to failures in one of the actions. If a single action fails for whatever reason, it will continue to process the remainder of the actions after it. When the bulk API returns, it will provide a status for each action (in the same order it was sent in) so that you can check if a specific action failed or not.
+Bulk API 不会因为一个操作失败而失败。如果一个动作因为某种原因失败了，它将继续执行剩下的动作。 Bulk API返回时将为每个操作提供一个状态（与发送的顺序相同），以便检查特定操作是否失败。
 
 == Exploring Your Data
 
