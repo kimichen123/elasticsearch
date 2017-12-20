@@ -256,23 +256,21 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 == 探索你的集群
 
 [float]
-=== The REST API
+=== REST API
 
-Now that we have our node (and cluster) up and running, the next step is to understand how to communicate with it. Fortunately, Elasticsearch provides a very comprehensive and powerful REST API that you can use to interact with your cluster. Among the few things that can be done with the API are as follows:
+现在我们的节点（集群）正在运行，下一步就是需要理解如何与其交互。幸运的是，Elasticsearch 提供了一个全面而强大的 REST API 使你可以与其交互。API 可以完成如下事情：
 
-* Check your cluster, node, and index health, status, and statistics
-* Administer your cluster, node, and index data and metadata
-* Perform CRUD (Create, Read, Update, and Delete) and search operations against your indexes
-* Execute advanced search operations such as paging, sorting, filtering, scripting, aggregations, and many others
+* 检查集群、节点、索引健康、索引状态和统计信息
+* 管理集群、节点、索引数据和元数据
+* 对你的索引执行 CRUD （创建、读取、更新、删除）和搜索操作
+* 执类似分页、排序、过滤、脚本、聚合和其他高级操作
 
-=== Cluster Health
+=== 集群健康
 
-Let's start with a basic health check, which we can use to see how our cluster is doing. We'll be using curl to do this but you can use any tool that allows you to make HTTP/REST calls. Let's assume that we are still on the same node where we started Elasticsearch on and open another command shell window.
+我们从一个基础健康检查开始来看看集群是如果工作的。我们将使用 curl 来演示，你也可以使用任何可以执行 HTTP/REST 调用的工具。假设我们任处在是在 Elasticsearch 集群的节点上，接下来打卡一个新的命令执行窗口。
 
-To check the cluster health, we will be using the {ref}/cat.html[`_cat` API]. You can
-run the command below in {kibana-ref}/console-kibana.html[Kibana's Console]
-by clicking "VIEW IN CONSOLE" or with `curl` by clicking the "COPY AS CURL"
-link below and pasting it into a terminal.
+为了检查集群健康，我们可以调用 {ref}/cat.html[`_cat` API]。你可以
+在 {kibana-ref}/console-kibana.html[Kibana's Console] 运行 "VIEW IN CONSOLE" ，或者点击下面的 "COPY AS CURL" 链接然后复制到终端执行 `curl`。
 
 [source,js]
 --------------------------------------------------
@@ -280,7 +278,7 @@ GET /_cat/health?v
 --------------------------------------------------
 // CONSOLE
 
-And the response:
+得到以下响应：
 
 [source,txt]
 --------------------------------------------------
@@ -291,19 +289,20 @@ epoch      timestamp cluster       status node.total node.data shards pri relo i
 // TESTRESPONSE[s/0             0                  -/0             \\d+                  -/]
 // TESTRESPONSE[_cat]
 
-We can see that our cluster named "elasticsearch" is up with a green status.
+可以看到名为 "elasticsearch" 的集群状态是绿色的。
 
-Whenever we ask for the cluster health, we either get green, yellow, or red.
+任何时候查看集群健康，我们只会得到绿色、黄色和红色三种状态之一。
 
-    * Green - everything is good (cluster is fully functional)
-    * Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional)
-    * Red - some data is not available for whatever reason (cluster is partially functional)
+    * 绿色 - 一切正常（集群所有功能可用）
+    * 黄色 - 索引数据是可用的但是某些副本尚未分配（集群所有功能可用）
+    * 红色 - 索引数据因为某些原因不可用（集群部分功能可用）
 
-**Note:** When a cluster is red, it will continue to serve search requests from the available shards but you will likely need to fix it ASAP since there are unassigned shards.
+**Note:** 当集群状态是红色时，来自可用分片的搜索请求仍然可用，但是因为有未分片的分片所以你需要尽快修复。
 
-Also from the above response, we can see a total of 1 node and that we have 0 shards since we have no data in it yet. Note that since we are using the default cluster name (elasticsearch) and since Elasticsearch uses unicast network discovery by default to find other nodes on the same machine, it is possible that you could accidentally start up more than one node on your computer and have them all join a single cluster. In this scenario, you may see more than 1 node in the above response.
+从上面的响应中，因为还没有数据所以我们可以看到总共有 1 个节点和 0 个分片。请注意由于我们使用的是默认集群名 （elasticsearch），同时 Elasticsearch 默认使用单播发现来寻找统一机器的其他节点。
+在你无意中启动的多个节点时可能都会加入该集群，此时你可能在响应中会看到多个节点。
 
-We can also get a list of nodes in our cluster as follows:
+我们可以获取集群中的节点列表：
 
 [source,js]
 --------------------------------------------------
@@ -311,7 +310,7 @@ GET /_cat/nodes?v
 --------------------------------------------------
 // CONSOLE
 
-And the response:
+响应如下：
 
 [source,txt]
 --------------------------------------------------
@@ -321,11 +320,11 @@ ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master
 // TESTRESPONSE[s/10           5   5    4.46/\\d+ \\d+ \\d+ (\\d+\\.\\d+)? (\\d+\\.\\d+)? (\\d+\.\\d+)?/]
 // TESTRESPONSE[s/[*]/[*]/ s/PB2SGZY/.+/ _cat]
 
-Here, we can see our one node named "PB2SGZY", which is the single node that is currently in our cluster.
+可以看到当前集群只有一个名为 "PB2SGZY" 的单节点。
 
-=== List All Indices
+=== 列举分片
 
-Now let's take a peek at our indices:
+现在来看一下索引情况：
 
 [source,js]
 --------------------------------------------------
@@ -333,7 +332,7 @@ GET /_cat/indices?v
 --------------------------------------------------
 // CONSOLE
 
-And the response:
+响应如下：
 
 [source,txt]
 --------------------------------------------------
@@ -341,11 +340,11 @@ health status index uuid pri rep docs.count docs.deleted store.size pri.store.si
 --------------------------------------------------
 // TESTRESPONSE[_cat]
 
-Which simply means we have no indices yet in the cluster.
+这意味着当前集群没有索引。
 
-=== Create an Index
+=== 创建索引
 
-Now let's create an index named "customer" and then list all the indexes again:
+现在创建一个名为 "customer" 的索引，并重新执行列举索引操作：
 
 [source,js]
 --------------------------------------------------
@@ -354,9 +353,9 @@ GET /_cat/indices?v
 --------------------------------------------------
 // CONSOLE
 
-The first command creates the index named "customer" using the PUT verb. We simply append `pretty` to the end of the call to tell it to pretty-print the JSON response (if any).
+第一个命令使用 PUT 创建了一个名为 "customer" 的索引，我们可以在调用尾端追加 `pretty` 以让获得完美排版的 JSON 响应格式。
 
-And the response:
+响应如下：
 
 [source,txt]
 --------------------------------------------------
@@ -365,13 +364,14 @@ yellow open   customer 95SQ4TSUT7mWBT7VNHH67A   5   1          0            0   
 --------------------------------------------------
 // TESTRESPONSE[s/95SQ4TSUT7mWBT7VNHH67A/.+/ s/260b/\\d+\\.?\\d?k?b/ _cat]
 
-The results of the second command tells us that we now have 1 index named customer and it has 5 primary shards and 1 replica (the defaults) and it contains 0 documents in it.
+从第二个命令结果可知有 1 个名为 customer 的索引，该索引有 5 个主分片和 1 个副本（默认），同时没有任何文档。
 
-You might also notice that the customer index has a yellow health tagged to it. Recall from our previous discussion that yellow means that some replicas are not (yet) allocated. The reason this happens for this index is because Elasticsearch by default created one replica for this index. Since we only have one node running at the moment, that one replica cannot yet be allocated (for high availability) until a later point in time when another node joins the cluster. Once that replica gets allocated onto a second node, the health status for this index will turn to green.
+同意你注意到 customer 索引的健康状态为黄色。回想一下之前的讨论，黄色意味着有副本尚未分配。原因是 Elasticsearch 的索引默认有一个副本，然后当前只有一个节点在运行索引副本无法被分配（为了高可用）。当之后有其他节点加入集群时副本才会分配，此时索引的监控状态会变成绿色。
 
-=== Index and Query a Document
+=== 索引和查找文档
 
-Let's now put something into our customer index. We'll index a simple customer document into the customer index, with an ID of 1 as follows:
+
+现在将一些内容存入 customer 索引。首先添加一个 ID 为 1 的简单 customer 文档。
 
 [source,js]
 --------------------------------------------------
@@ -382,7 +382,7 @@ PUT /customer/doc/1?pretty
 --------------------------------------------------
 // CONSOLE
 
-And the response:
+响应如下：
 
 [source,js]
 --------------------------------------------------
@@ -403,11 +403,11 @@ And the response:
 --------------------------------------------------
 // TESTRESPONSE[s/"_seq_no" : 0/"_seq_no" : $body._seq_no/ s/"_primary_term" : 1/"_primary_term" : $body._primary_term/]
 
-From the above, we can see that a new customer document was successfully created inside the customer index. The document also has an internal id of 1 which we specified at index time.
+通过上文可知，我们可以发现一个新的 customer 文档成功的被创建。这个文档在索引时指定其内部 id 为 1。
 
-It is important to note that Elasticsearch does not require you to explicitly create an index first before you can index documents into it. In the previous example, Elasticsearch will automatically create the customer index if it didn't already exist beforehand.
+请注意 Elasticsearch 不需要你在索引文档前先显示的创建索引。在上面的例子中，如果 customer 索引不存在Elasticsearch 将自动创建一个 customer 索引。
 
-Let's now retrieve that document that we just indexed:
+现在我们取回我们刚刚索引的文档：
 
 [source,js]
 --------------------------------------------------
@@ -416,7 +416,7 @@ GET /customer/doc/1?pretty
 // CONSOLE
 // TEST[continued]
 
-And the response:
+响应如下：
 
 [source,js]
 --------------------------------------------------
@@ -431,11 +431,11 @@ And the response:
 --------------------------------------------------
 // TESTRESPONSE
 
-Nothing out of the ordinary here other than a field, `found`, stating that we found a document with the requested ID 1 and another field, `_source`, which returns the full JSON document that we indexed from the previous step.
+有一些不同的是，响应中会有 `found` 字段，该字段说明找到了 ID 为 1 的文档，另外还有 `_source` 字段，这个字段返回了之前我们索引文档的 JSON 内容。
 
-=== Delete an Index
+=== 删除索引
 
-Now let's delete the index that we just created and then list all the indexes again:
+现在执行删除索引操作，再列举出所有索引：
 
 [source,js]
 --------------------------------------------------
@@ -445,7 +445,7 @@ GET /_cat/indices?v
 // CONSOLE
 // TEST[continued]
 
-And the response:
+响应如下：
 
 [source,txt]
 --------------------------------------------------
@@ -453,9 +453,9 @@ health status index uuid pri rep docs.count docs.deleted store.size pri.store.si
 --------------------------------------------------
 // TESTRESPONSE[_cat]
 
-Which means that the index was deleted successfully and we are now back to where we started with nothing in our cluster.
+意味着索引已经成功删除，现在我们回到了创建集群时的状态。
 
-Before we move on, let's take a closer look again at some of the API commands that we have learned so far:
+在继续学习之前，让我们回头看看迄今为止学到的一些 API 命令：
 
 [source,js]
 --------------------------------------------------
@@ -469,7 +469,7 @@ DELETE /customer
 --------------------------------------------------
 // CONSOLE
 
-If we study the above commands carefully, we can actually see a pattern of how we access data in Elasticsearch. That pattern can be summarized as follows:
+如果我们仔细研究上面的命令，我们可以发现如何访问 Elasticsearch 数据的模式。这个模式总结如下：
 
 [source,js]
 --------------------------------------------------
@@ -477,7 +477,7 @@ If we study the above commands carefully, we can actually see a pattern of how w
 --------------------------------------------------
 // NOTCONSOLE
 
-This REST access pattern is so pervasive throughout all the API commands that if you can simply remember it, you will have a good head start at mastering Elasticsearch.
+这个 REST 访问模式在所有的 API 命令中使用十分普遍，简单记住它是掌握 Elasticsearch 的一个好开端。
 
 == Modifying Your Data
 
