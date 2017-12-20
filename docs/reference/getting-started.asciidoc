@@ -97,9 +97,10 @@ NOTE: 每个 Elasticsearch 分片是一个 Lucence 索引。一个 Lucene 索引
 
 有了这些，我们就可以开始有趣之旅了...
 
-== Installation
+== 安装
 
-Elasticsearch requires at least Java 8. Specifically as of this writing, it is recommended that you use the Oracle JDK version {jdk}. Java installation varies from platform to platform so we won't go into those details here. Oracle's recommended installation documentation can be found on http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[Oracle's website]. Suffice to say, before you install Elasticsearch, please check your Java version first by running (and then install/upgrade accordingly if needed):
+Elasticsearch 最低需要Java 8。 在撰写本文时强烈建议你使用 Oracle JDK 版本 {jdk}。Java 在不同平台的安装方法不同，索引我们也不会在这里详细讨论安装细节。Oracle 的建议安装文档可以在 http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[Oracle's website]找到。
+可以说，在安装 Elasticsearch 之前请先检查你的 Java 版本（请按需进行 安装/升级）：
 
 [source,sh]
 --------------------------------------------------
@@ -107,14 +108,14 @@ java -version
 echo $JAVA_HOME
 --------------------------------------------------
 
-Once we have Java set up, we can then download and run Elasticsearch. The binaries are available from http://www.elastic.co/downloads[`www.elastic.co/downloads`] along with all the releases that have been made in the past. For each release, you have a choice among a `zip` or `tar` archive, a `DEB` or `RPM` package, or a Windows `MSI` installation package.
+当设置好了 Java 环境之后，我们可以下载并允许 Elasticsearch。所有已发布的二进制版本可以从 http://www.elastic.co/downloads[`www.elastic.co/downloads`] 下载。对于每一个发布版本，你可以从 `zip` 、 `tar` 、 `DEB` 、 `RPM` 或者 Windows `MSI` 中选择合适版本进行安装。
 
 [float]
-=== Installation example with tar
+=== 安装 tar 示例
 
-For simplicity, let's use the {ref}/zip-targz.html[tar] file.
+简单起见，我们使用 {ref}/zip-targz.html[tar] 文件。
 
-Let's download the Elasticsearch {version} tar as follows:
+我们下载 Elasticsearc {version} tar：
 
 ["source","sh",subs="attributes,callouts"]
 --------------------------------------------------
@@ -122,21 +123,21 @@ curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{v
 --------------------------------------------------
 // NOTCONSOLE
 
-Then extract it as follows:
+然后进行解压：
 
 ["source","sh",subs="attributes,callouts"]
 --------------------------------------------------
 tar -xvf elasticsearch-{version}.tar.gz
 --------------------------------------------------
 
-It will then create a bunch of files and folders in your current directory. We then go into the bin directory as follows:
+解压后当前目录中将创建一组文件和文件夹。接着进入 bin 目录:
 
 ["source","sh",subs="attributes,callouts"]
 --------------------------------------------------
 cd elasticsearch-{version}/bin
 --------------------------------------------------
 
-And now we are ready to start our node and single cluster:
+下面我们准备开始我们的节点和单集群：
 
 [source,sh]
 --------------------------------------------------
@@ -144,9 +145,9 @@ And now we are ready to start our node and single cluster:
 --------------------------------------------------
 
 [float]
-=== Installation with Homebrew
+=== 使用 Homebrew 安装
 
-On macOS, Elasticsearch can also be installed via https://brew.sh[Homebrew]:
+在 macOS, Elasticsearch 可以通过 https://brew.sh[Homebrew] 安装：
 
 ["source","sh"]
 --------------------------------------------------
@@ -154,56 +155,55 @@ brew install elasticsearch
 --------------------------------------------------
 
 [float]
-=== Installation example with MSI Windows Installer
+=== MSI Windows Installer 安装示例
 
-For Windows users, we recommend using the {ref}/windows.html[MSI Installer package]. The package contains a graphical user interface (GUI) that guides you through the installation process.
+对于 Windows 用户，我们推荐使用 {ref}/windows.html[MSI Installer package] 安装。 这个包包含图形用户界面（GUI）可以引导你完成安装。
 
-First, download the Elasticsearch {version} MSI from
-https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{version}.msi.
+首先，从 https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{version}.msi 下载 Elasticsearch {version} MSI。
 
-Then double-click the downloaded file to launch the GUI. Within the first screen, select the deployment directories:
+然后双击下载的文件以启动 GUI。在第一个界面中选择部署目录：
 
 [[getting-started-msi-installer-locations]]
 image::images/msi_installer/msi_installer_locations.png[]
 
-Then select whether to install as a service or start Elasticsearch manually as needed.
-To align with the tar example, choose not to install as a service:
+选择是否安装为服务，或者按需手动启动 Elasticsearch。
+为了与 tar 示例保持一致，选择不安装服务：
 
 [[getting-started-msi-installer-service]]
 image::images/msi_installer/msi_installer_no_service.png[]
 
-For configuration, simply leave the default values:
+只需保留配置的默认值：
 
 [[getting-started-msi-installer-configuration]]
 image::images/msi_installer/msi_installer_configuration.png[]
 
-Again, to align with the tar example, uncheck all plugins to not install any plugins:
+同样为了与 tar 示例保持一致，取消所有插件以避免安装任何插件:
 
 [[getting-started-msi-installer-plugins]]
 image::images/msi_installer/msi_installer_plugins.png[]
 
-After clicking the install button, Elasticsearch will be installed:
+点击安装按钮后，Elasticsearch 将会开始安装：
 
 [[getting-started-msi-installer-success]]
 image::images/msi_installer/msi_installer_success.png[]
 
-By default, Elasticsearch will be installed at `%PROGRAMFILES%\Elastic\Elasticsearch`. Navigate here and go into the bin directory as follows:
+默认情况下 Elasticsearch 会安装在 `%PROGRAMFILES%\Elastic\Elasticsearch`。在这导航并进入 bin 目录：
 
-**with Command Prompt:**
+**命令提示符：**
 
 [source,sh]
 --------------------------------------------------
 cd %PROGRAMFILES%\Elastic\Elasticsearch\bin
 --------------------------------------------------
 
-**with PowerShell:**
+**PowerShell：**
 
 [source,powershell]
 --------------------------------------------------
 cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 --------------------------------------------------
 
-And now we are ready to start our node and single cluster:
+现在启动节点和集群：
 
 [source,sh]
 --------------------------------------------------
@@ -211,9 +211,9 @@ And now we are ready to start our node and single cluster:
 --------------------------------------------------
 
 [float]
-=== Successfully running node
+=== 节点允许成功
 
-If everything goes well with installation, you should see a bunch of messages that look like below:
+如果一切顺利，你会看到如下的一串提示：
 
 ["source","sh",subs="attributes,callouts"]
 --------------------------------------------------
@@ -242,18 +242,18 @@ If everything goes well with installation, you should see a bunch of messages th
 [2016-09-16T14:17:56,748][INFO ][o.e.n.Node               ] [6-bjhwl] started
 --------------------------------------------------
 
-Without going too much into detail, we can see that our node named "6-bjhwl" (which will be a different set of characters in your case) has started and elected itself as a master in a single cluster. Don't worry yet at the moment what master means. The main thing that is important here is that we have started one node within one cluster.
+在忽略细节的前提下，我们可以看到我们的节点名为 "6-bjhwl"（在你的场景下会看到不同的字符标识）在单集群中已经被选为主节点。 现在不用太关心主节点，最重要的是我们已经在急群中启动了一个节点。
 
-As mentioned previously, we can override either the cluster or node name. This can be done from the command line when starting Elasticsearch as follows:
+如上所述，我们可以重命名集群或节点名。这可以在启动 Elasticsearch 时使用命令行：
 
 [source,sh]
 --------------------------------------------------
 ./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
 --------------------------------------------------
 
-Also note the line marked http with information about the HTTP address (`192.168.8.112`) and port (`9200`) that our node is reachable from. By default, Elasticsearch uses port `9200` to provide access to its REST API. This port is configurable if necessary.
+还需注意的是由 HTTP 地址（`192.168.8.112`）和端口（`9200`）标记的节点是可访问的。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
 
-== Exploring Your Cluster
+== 探索你的集群
 
 [float]
 === The REST API
