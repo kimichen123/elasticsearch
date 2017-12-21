@@ -772,7 +772,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-最大的不同是在 URI 中不传递 `q=*`，我们为 `_search` API POST 一个 JSON-style 查询请求体。具体的 JSON 查询将在下一部分讨论.
+最大的不同是在 URI 中不传递 `q=*` ，我们为 `_search` API POST 一个 JSON-style 查询请求体。具体的 JSON 查询将在下一部分讨论.
 
 ////
 Hidden response just so we can assert that it is indeed the same but don't have
