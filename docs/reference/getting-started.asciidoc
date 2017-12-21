@@ -250,7 +250,7 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 ./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
 --------------------------------------------------
 
-还需注意的是标记为 http 的行提供了节点可访问的 HTTP 地址（`192.168.8.112` ）和端口（`9200` ）信息。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
+还需注意的是标记为 http 的行提供了节点可访问的 HTTP 地址（ `192.168.8.112` ）和端口（ `9200` ）信息。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
 
 == 探索你的集群
 
@@ -706,7 +706,7 @@ GET /bank/_search?q=*&sort=account_number:asc&pretty
 // CONSOLE
 // TEST[continued]
 
-首先解析搜索调用，我们在 bank 索引中进行搜索（`_search` ），同时 `q=*` 参数表示匹配索引中的所有文档。`sort=account_number:asc` 参数表示对所有返回的文档结果按 account_number 升序排序。`pretty` 参数告诉 Elasticsearch 返回完美排版的 JSON 结果集。
+首先解析搜索调用，我们在 bank 索引中进行搜索（ `_search` ），同时 `q=*` 参数表示匹配索引中的所有文档。`sort=account_number:asc` 参数表示对所有返回的文档结果按 account_number 升序排序。`pretty` 参数告诉 Elasticsearch 返回完美排版的 JSON 结果集。
 
 响应如下（部分展示）:
 
@@ -939,7 +939,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-下例是 `match` (`match_phrase`) 的变体，它返回 address 字段包含 "mill lane"  短语的所有账户。
+下例是 `match` （ `match_phrase` ） 的变体，它返回 address 字段包含 "mill lane"  短语的所有账户。
 
 [source,js]
 --------------------------------------------------
