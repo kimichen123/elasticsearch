@@ -99,7 +99,7 @@ NOTE: 每个 Elasticsearch 分片是一个 Lucence 索引。一个 Lucene 索引
 
 == 安装
 
-Elasticsearch 最低需要Java 8。 在撰写本文时强烈建议你使用 Oracle JDK 版本 {jdk}。Java 在不同平台的安装方法不同，索引我们也不会在这里详细讨论安装细节。Oracle 的建议安装文档可以在 http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[Oracle's website]找到。可以说，在安装 Elasticsearch 之前请先检查你的 Java 版本（请按需进行 安装/升级）：
+Elasticsearch 最低需要Java 8。 在撰写本文时强烈建议你使用 Oracle JDK 版本 {jdk}。Java 不同平台的安装方法不同，所以我们不会在这里详细讨论安装细节。Oracle 的建议安装文档可以在 http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[Oracle's website] 找到。得知道的是，在安装 Elasticsearch 之前请先检查你的 Java 版本（请按需进行 安装/升级）：
 
 [source,sh]
 --------------------------------------------------
@@ -107,14 +107,14 @@ java -version
 echo $JAVA_HOME
 --------------------------------------------------
 
-当设置好了 Java 环境之后，我们可以下载并允许 Elasticsearch。所有已发布的二进制版本可以从 http://www.elastic.co/downloads[`www.elastic.co/downloads`] 下载。对于每一个发布版本，你可以从 `zip` 、 `tar` 、 `DEB` 、 `RPM` 或者 Windows `MSI` 中选择合适版本进行安装。
+当设置好了 Java 环境之后，我们可以下载运行 Elasticsearch。所有已发布的二进制版本可以从 http://www.elastic.co/downloads[`www.elastic.co/downloads`] 下载。对于每一个发布版本，你可以从 `zip` 、 `tar` 、 `DEB` 、 `RPM` 或者 Windows `MSI` 中选择合适版本进行安装。
 
 [float]
 === 安装 tar 示例
 
 简单起见，我们使用 {ref}/zip-targz.html[tar] 文件。
 
-我们下载 Elasticsearc {version} tar：
+下载 Elasticsearc {version} tar：
 
 ["source","sh",subs="attributes,callouts"]
 --------------------------------------------------
@@ -122,7 +122,7 @@ curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{v
 --------------------------------------------------
 // NOTCONSOLE
 
-然后进行解压：
+然后解压：
 
 ["source","sh",subs="attributes,callouts"]
 --------------------------------------------------
@@ -136,7 +136,7 @@ tar -xvf elasticsearch-{version}.tar.gz
 cd elasticsearch-{version}/bin
 --------------------------------------------------
 
-下面我们准备开始我们的节点和单集群：
+下面我们准备启动我们的节点和单集群：
 
 [source,sh]
 --------------------------------------------------
@@ -146,7 +146,7 @@ cd elasticsearch-{version}/bin
 [float]
 === 使用 Homebrew 安装
 
-在 macOS, Elasticsearch 可以通过 https://brew.sh[Homebrew] 安装：
+在 macOS, Elasticsearch 可以使用 https://brew.sh[Homebrew] 安装：
 
 ["source","sh"]
 --------------------------------------------------
@@ -156,7 +156,7 @@ brew install elasticsearch
 [float]
 === MSI Windows Installer 安装示例
 
-对于 Windows 用户，我们推荐使用 {ref}/windows.html[MSI Installer package] 安装。 这个包包含图形用户界面（GUI）可以引导你完成安装。
+对于 Windows 用户，我们推荐使用 {ref}/windows.html[MSI Installer package] 安装。 这个包包含的图形用户界面（GUI）可以引导你完成安装。
 
 首先，从 https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{version}.msi 下载 Elasticsearch {version} MSI。
 
@@ -166,7 +166,7 @@ brew install elasticsearch
 image::images/msi_installer/msi_installer_locations.png[]
 
 选择是否安装为服务，或者按需手动启动 Elasticsearch。
-为了与 tar 示例保持一致，选择不安装服务：
+为了与 tar 示例保持一致，这里选择不安装服务：
 
 [[getting-started-msi-installer-service]]
 image::images/msi_installer/msi_installer_no_service.png[]
@@ -202,7 +202,7 @@ cd %PROGRAMFILES%\Elastic\Elasticsearch\bin
 cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 --------------------------------------------------
 
-现在启动节点和集群：
+现在启动节点和单集群：
 
 [source,sh]
 --------------------------------------------------
@@ -210,7 +210,7 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 --------------------------------------------------
 
 [float]
-=== 节点允许成功
+=== 节点运行成功
 
 如果一切顺利，你会看到如下的一串提示：
 
@@ -241,23 +241,23 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 [2016-09-16T14:17:56,748][INFO ][o.e.n.Node               ] [6-bjhwl] started
 --------------------------------------------------
 
-在忽略细节的前提下，我们可以看到我们的节点名为 "6-bjhwl"（在你的场景下会看到不同的字符标识）在单集群中已经被选为主节点。 现在不用太关心主节点，最重要的是我们已经在急群中启动了一个节点。
+在忽略细节的前提下，我们可以看到我们的节点名为 "6-bjhwl"（在你的场景下会看到不同的字符标识）在单集群中已经被选为主节点。 现在不用太关心主节点，最重要的是我们已经在集群中启动了一个节点。
 
-如上所述，我们可以重命名集群或节点名。这可以在启动 Elasticsearch 时使用命令行：
+如上所述，我们可以重命名集群或节点名。可以在启动 Elasticsearch 时使用命令行：
 
 [source,sh]
 --------------------------------------------------
 ./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
 --------------------------------------------------
 
-还需注意的是由 HTTP 地址（`192.168.8.112`）和端口（`9200`）标记的节点是可访问的。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
+还需注意的是标记为 http 的行提供了节点可访问的 HTTP 地址（`192.168.8.112`）和端口（`9200`）信息。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
 
 == 探索你的集群
 
 [float]
 === REST API
 
-现在我们的节点（集群）正在运行，下一步就是需要理解如何与其交互。幸运的是，Elasticsearch 提供了一个全面而强大的 REST API 使你可以与其交互。API 可以完成如下事情：
+现在我们的节点（集群）正在运行，下一步就是需要知道如何与其交互。幸运的是，Elasticsearch 提供了一个全面而强大的 REST API 使你可以与其交互。这些 API 可以完成如下事情：
 
 * 检查集群、节点、索引健康、索引状态和统计信息
 * 管理集群、节点、索引数据和元数据
@@ -266,10 +266,9 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 
 === 集群健康
 
-我们从一个基础健康检查开始来看看集群是如果工作的。我们将使用 curl 来演示，你也可以使用任何可以执行 HTTP/REST 调用的工具。假设我们任处在是在 Elasticsearch 集群的节点上，接下来打卡一个新的命令执行窗口。
+我们从一个基础健康校验开始来看看集群是如果工作的。我们将使用 curl 来演示，你也可以使用任何可以执行 HTTP/REST 调用的工具。假设我们处在 Elasticsearch 集群的节点上，接下来打打开一个新的命令执行窗口。
 
-为了检查集群健康，我们可以调用 {ref}/cat.html[`_cat` API]。你可以
-在 {kibana-ref}/console-kibana.html[Kibana's Console] 运行 "VIEW IN CONSOLE" ，或者点击下面的 "COPY AS CURL" 链接然后复制到终端执行 `curl`。
+为了检查集群健康，我们可以调用 {ref}/cat.html[`_cat` API]。你可以在 {kibana-ref}/console-kibana.html[Kibana's Console] 运行 "VIEW IN CONSOLE" ，或者点击下面的 "COPY AS CURL" 链接然后复制到终端执行 `curl`。
 
 [source,js]
 --------------------------------------------------
@@ -277,7 +276,7 @@ GET /_cat/health?v
 --------------------------------------------------
 // CONSOLE
 
-得到以下响应：
+响应如下：
 
 [source,txt]
 --------------------------------------------------
@@ -296,12 +295,12 @@ epoch      timestamp cluster       status node.total node.data shards pri relo i
     * 黄色 - 索引数据是可用的但是某些副本尚未分配（集群所有功能可用）
     * 红色 - 索引数据因为某些原因不可用（集群部分功能可用）
 
-**Note:** 当集群状态是红色时，来自可用分片的搜索请求仍然可用，但是因为有未分片的分片所以你需要尽快修复。
+**Note:** 当集群状态是红色时，来自可用分片的搜索请求仍然可用，但是因为有未分配的分片所以你需要尽快修复。
 
-从上面的响应中，因为还没有数据所以我们可以看到总共有 1 个节点和 0 个分片。请注意由于我们使用的是默认集群名 （elasticsearch），同时 Elasticsearch 默认使用单播发现来寻找统一机器的其他节点。
-在你无意中启动的多个节点时可能都会加入该集群，此时你可能在响应中会看到多个节点。
+上面的响应因为还没有数据所以我们可以看到总共有 1 个节点和 0 个分片。请注意由于我们使用的是默认集群名 （elasticsearch），同时 Elasticsearch 默认使用单播发现来寻找同一机器的其他节点。
+无意启动的多个节点时可能都会加入该集群，此时你可能在响应中会看到多个节点。
 
-我们可以获取集群中的节点列表：
+获取集群中的节点列表：
 
 [source,js]
 --------------------------------------------------
@@ -352,7 +351,7 @@ GET /_cat/indices?v
 --------------------------------------------------
 // CONSOLE
 
-第一个命令使用 PUT 创建了一个名为 "customer" 的索引，我们可以在调用尾端追加 `pretty` 以让获得完美排版的 JSON 响应格式。
+第一个命令使用 PUT 创建了一个名为 "customer" 的索引，我们可以在调用尾端追加 `pretty` 以获得完美排版的 JSON 响应格式。
 
 响应如下：
 
@@ -363,9 +362,9 @@ yellow open   customer 95SQ4TSUT7mWBT7VNHH67A   5   1          0            0   
 --------------------------------------------------
 // TESTRESPONSE[s/95SQ4TSUT7mWBT7VNHH67A/.+/ s/260b/\\d+\\.?\\d?k?b/ _cat]
 
-从第二个命令结果可知有 1 个名为 customer 的索引，该索引有 5 个主分片和 1 个副本（默认），同时没有任何文档。
+从第二个命令返回的结果可知有 1 个名为 customer 的索引，该索引有 5 个主分片和 1 个副本（默认），同时没有任何文档。
 
-同意你注意到 customer 索引的健康状态为黄色。回想一下之前的讨论，黄色意味着有副本尚未分配。原因是 Elasticsearch 的索引默认有一个副本，然后当前只有一个节点在运行索引副本无法被分配（为了高可用）。当之后有其他节点加入集群时副本才会分配，此时索引的监控状态会变成绿色。
+注意到 customer 索引的健康状态为黄色。回想一下之前的讨论，黄色意味着有副本尚未分配。原因是 Elasticsearch 的索引默认有一个副本。因为当前只有一个节点在运行所以索引副本无法被分配（为了高可用），之后有其他节点加入集群时副本才会分配，此时索引的监控状态会变成绿色。
 
 === 索引和查找文档
 
@@ -402,11 +401,11 @@ PUT /customer/doc/1?pretty
 --------------------------------------------------
 // TESTRESPONSE[s/"_seq_no" : 0/"_seq_no" : $body._seq_no/ s/"_primary_term" : 1/"_primary_term" : $body._primary_term/]
 
-通过上文可知，我们可以发现一个新的 customer 文档成功的被创建。这条文档在索引时指定其内部 id 为 1。
+通过上文可知，可以发现有一个新的 customer 文档成功的被创建。这条文档在索引时指定其内部 id 为 1。
 
-请注意 Elasticsearch 不需要你在索引文档前先显示的创建索引。在上面的例子中，如果 customer 索引不存在Elasticsearch 将自动创建一个 customer 索引。
+请注意 Elasticsearch 不需要你在索引文档前先显式的创建索引。在上面的例子中，如果 customer 索引不存在Elasticsearch 将自动创建一个 customer 索引。
 
-现在我们取回我们刚刚索引的文档：
+现在取回刚刚索引的文档：
 
 [source,js]
 --------------------------------------------------
@@ -430,11 +429,11 @@ GET /customer/doc/1?pretty
 --------------------------------------------------
 // TESTRESPONSE
 
-有一些不同的是，响应中会有 `found` 字段，该字段说明找到了 ID 为 1 的文档，另外还有 `_source` 字段，这个字段返回了之前我们索引文档的 JSON 内容。
+不同的是，响应中会有 `found` 字段，该字段说明找到了 ID 为 1 的文档，另外还有 `_source` 字段，这个字段返回了之前我们索引文档的 JSON 内容。
 
 === 删除索引
 
-现在执行删除索引操作，再列举出所有索引：
+现在执行删除索引操作，并列举出所有索引：
 
 [source,js]
 --------------------------------------------------
@@ -452,7 +451,7 @@ health status index uuid pri rep docs.count docs.deleted store.size pri.store.si
 --------------------------------------------------
 // TESTRESPONSE[_cat]
 
-意味着索引已经成功删除，现在我们回到了创建集群时的状态。
+意味着索引已经成功删除，现在回到了创建集群时的状态。
 
 在继续学习之前，让我们回头看看迄今为止学到的一些 API 命令：
 
@@ -468,7 +467,7 @@ DELETE /customer
 --------------------------------------------------
 // CONSOLE
 
-如果我们仔细研究上面的命令，我们可以发现如何访问 Elasticsearch 数据的模式。这个模式总结如下：
+如果我们仔细研究上面的命令，我们可以发现访问 Elasticsearch 数据的模式。这个模式总结如下：
 
 [source,js]
 --------------------------------------------------
@@ -480,7 +479,7 @@ DELETE /customer
 
 == 修改数据
 
-Elasticsearch 支持近实时的数据操作和搜索功能。默认情况下，在执行 索引/更新/删除 数据开始到搜索结果可见大概有一秒的延迟（刷新间隔）。这是与类似 SQL 等其他平台的重要区别，这些平台数据在事务完成是立即可见的。
+Elasticsearch 支持近实时的数据操作和搜索功能。默认情况下，在执行 索引/更新/删除 数据操作后到搜索结果可见大概有一秒的延迟（刷新间隔）。这是与类似 SQL 等其他平台的重要区别，这些平台数据在事务完成后是立即可见的。
 
 [float]
 === 索引/替换 文档
@@ -523,9 +522,9 @@ PUT /customer/doc/2?pretty
 
 上文索引了一个 ID 为 2 的新文档。
 
-当索引文档时，ID 是可选的。如果没有指定，Elasticsearch 会为文档生成一个随机 ID。ELasticsearch 生成的实际 ID（包括上面提显示指定的 ID） 将作为索引 API 调用的一部分而返回。
+当索引文档时 ID 是可选的。如果没有指定，Elasticsearch 会为文档生成一个随机 ID。ELasticsearch 生成的实际 ID（包括上面提显式指定的 ID） 将作为索引 API 调用的一部分而返回。
 
-下面这个例子展示了索引文档时不显示指定 ID：
+下面这个例子展示了索引文档时不显式指定 ID：
 
 [source,js]
 --------------------------------------------------
@@ -555,7 +554,7 @@ POST /customer/doc/1/_update?pretty
 // CONSOLE
 // TEST[continued]
 
-下面这个例子演示了将之前的文档（ID 为 1） name 字段更新为  "Jane Doe"的同时新增了一个 age 字段：
+下面这个例子演示了将之前的文档（ID 为 1） name 字段更新为  "Jane Doe" 的同时新增了一个 age 字段：
 
 [source,js]
 --------------------------------------------------
@@ -601,7 +600,7 @@ DELETE /customer/doc/2?pretty
 
 除了索引、更新和删除文档外，Elasticsearch 还提供了 {ref}/docs-bulk.html[`_bulk` API] 操作执行上述任何操作的能力。这个功能十分重要，因为它在执行多个操作时提供了一个非常有效的机制，并尽可能减少网络往返。
 
-作为一个快速例子，下面用 bulk 操作同时索引了两条文档 （ID 1 - John Doe 和 ID 2 - Jane Doe）。
+作为一个快速示例，下面的 bulk 操作同时索引了两条文档 （ID 1 - John Doe 和 ID 2 - Jane Doe）。
 
 [source,js]
 --------------------------------------------------
@@ -626,7 +625,7 @@ POST /customer/doc/_bulk?pretty
 // CONSOLE
 // TEST[continued]
 
-注意到上面的删除行为，因为删除只需要文档 ID 所以这里没有相应的源文档。
+注意到上面的删除行为，因为删除只需要文档 ID 所以这里不需要相应的源文档。
 
 Bulk API 不会因为一个操作失败而失败。如果一个动作因为某种原因失败了，它将继续执行剩下的动作。 Bulk API返回时将为每个操作提供一个状态（与发送的顺序相同），以便检查特定操作是否失败。
 
@@ -635,7 +634,7 @@ Bulk API 不会因为一个操作失败而失败。如果一个动作因为某�
 [float]
 === 样本数据集
 
-现在我们已经掌握了一些基本知识，让我们尝试一些更现实的数据集。 我准备了一个关于客户银行账户信息的虚构的 JSON 文档样本。 每条文档都模式如下：
+现在我们已经掌握了一些基本知识，让我们尝试一些更现实的数据集。 我准备了一个关于客户银行账户信息的虚构的 JSON 文档样本。 每条文档结构如下：
 
 [source,js]
 --------------------------------------------------
@@ -655,7 +654,7 @@ Bulk API 不会因为一个操作失败而失败。如果一个动作因为某�
 --------------------------------------------------
 // NOTCONSOLE
 
-为了数据多样，这些数据是使用 http://www.json-generator.com/[`www.json-generator.com/`] 生成的，索引请忽略数据实际值和语义，因为这些数据都是随机产生的。
+为了数据多样，这些数据都是使用 http://www.json-generator.com/[`www.json-generator.com/`] 生成的，所以请忽略数据实际值和语义，因为这些数据都是随机产生的。
 
 [float]
 === 加载数据样本集
@@ -695,7 +694,7 @@ yellow open   bank  l7sSYV2cQXmu6_4rJWVIww   5   1       1000            0    12
 
 === 搜索 API
 
-现在我们可以开始一些简单的搜索。有两种基本方法执行搜索操作：一种是通过 {ref}/search-uri-request.html[REST request URI]  发送搜索参数，另外一种是通过 {ref}/search-request-body.html[REST request body] 发送搜索请求。
+现在我们可以开始一些简单的搜索。有两种执行搜索操作基本方法：一种是通过 {ref}/search-uri-request.html[REST request URI]  发送搜索参数，另外一种是通过 {ref}/search-request-body.html[REST request body] 发送搜索请求。
 请求体方法更具表现性，并以更易读的 JSON 格式定义搜索。我们将尝试一个请求 URI 的例子，但在本教程的剩余部分中，我们将专门使用请求体方法。
 
 用于搜索的 REST API 可用 `_search` 访问。下例返回了 bank 索引的所有文档：
@@ -747,13 +746,13 @@ GET /bank/_search?q=*&sort=account_number:asc&pretty
 // TESTRESPONSE[s/"took" : 63/"took" : $body.took/]
 // TESTRESPONSE[s/\.\.\./$body.hits.hits.2, $body.hits.hits.3, $body.hits.hits.4, $body.hits.hits.5, $body.hits.hits.6, $body.hits.hits.7, $body.hits.hits.8, $body.hits.hits.9/]
 
-响应结果可以观察到如下部分：
+从响应结果可以看到到如下部分：
 
 * `took` – Elasticsearch 执行搜索的时间，单位为毫秒
 * `timed_out` – 是否超时
 * `_shards` – 搜索了多少分片，以及搜索 成功/失败 的分片数
 * `hits` – 搜索结果集
-* `hits.total` – 复合搜索条件的文件总数
+* `hits.total` – 符合搜索条件的文件总数
 * `hits.hits` – 实际搜索结果数组（默认前 10 条）
 * `hits.sort` - 结果排序的字段（没有指定则以 score 排序）
 * `hits._score` 和 `max_score` - 现在可以忽略这些字段
@@ -835,7 +834,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-解析上述内容，`query` 部分高速我们查询的定义是什么，`match_all` 是我们想执行的查询类型。`match_all` 在搜索时对指定索引返回所有文档。
+解析上述内容，`query` 部分告诉我们查询的定义是什么，`match_all` 是我们想执行的查询类型。`match_all` 在搜索时对指定索引返回所有文档。
 
 除了 `query` 参数，我们可以传递其他参数以影响搜索结果。上面的例子中我们传递了 `sort`，下面我们传递 `size`。
 
@@ -866,7 +865,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-`from` 参数（从 0 开始）表明索引文档的开始位置，`size` 参数表明从 from 参数开始返回多少文档。这个功能在实现分页功能时十分有用。注意 `from` 没有指定时默认为 0。
+`from` 参数（从 0 开始）表示索引文档的开始位置，`size` 参数表示从 from 参数开始返回多少文档。这个功能在实现分页功能时十分有用。注意 `from` 没有指定时默认为 0。
 
 下例执行了 `match_all` 并按降序对 balance 进行排序，且返回了前 10（默认大小） 条文档。
 
@@ -898,7 +897,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-需要注意的是上例中只会减少 `_source` 内的字段。它仍然会返回 `_source`，但该字段中仅仅包含 `account_number` 和 `balance` 字段。
+需要注意的是上例中只会减少 `_source` 内的字段。它仍然会返回 `_source` ，但该字段中仅仅包含 `account_number` 和 `balance` 字段。
 
 如果你有 SQL 背景可知上例与 `SQL SELECT FROM` 的概念相似。
 
