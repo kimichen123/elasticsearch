@@ -1,4 +1,4 @@
-[[getting-started]]
+账户[[getting-started]]
 = 开始
 
 [partintro]
@@ -60,7 +60,7 @@ deprecated[6.0.0,参考 <<removal-of-types>>]
 [float]
 === 文档
 
-文档是可被索引的基本单元。例如你可以使用三个文档分布存储单个客户、单个产品以及单个订单。这个文档是由互联网中常见的数据交换格式 http://json.org/[JSON] (JavaScript Object Notation) 呈现的。
+文档是可被索引的基本单元。例如你可以使用三条文档分布存储单个客户、单个产品以及单个订单。这条文档是由互联网中常见的数据交换格式 http://json.org/[JSON] (JavaScript Object Notation) 呈现的。
 
 在索引/类型中可以存储任意多的文档。需要注意的是尽管文档表面上是存储在索引中，但实际上文档必须被 索引/分配 给索引内的类型。
 
@@ -403,7 +403,7 @@ PUT /customer/doc/1?pretty
 --------------------------------------------------
 // TESTRESPONSE[s/"_seq_no" : 0/"_seq_no" : $body._seq_no/ s/"_primary_term" : 1/"_primary_term" : $body._primary_term/]
 
-通过上文可知，我们可以发现一个新的 customer 文档成功的被创建。这个文档在索引时指定其内部 id 为 1。
+通过上文可知，我们可以发现一个新的 customer 文档成功的被创建。这条文档在索引时指定其内部 id 为 1。
 
 请注意 Elasticsearch 不需要你在索引文档前先显示的创建索引。在上面的例子中，如果 customer 索引不存在Elasticsearch 将自动创建一个 customer 索引。
 
@@ -582,11 +582,11 @@ POST /customer/doc/1/_update?pretty
 
 上面例子中， `ctx._source` 指的是将被替换的当前源文档。
 
-Elasticsearch 提供了在查询时更新多个文档的能力（类似 `SQL UPDATE-WHERE`）。详见 {ref}/docs-update-by-query.html[`docs-update-by-query` API]
+Elasticsearch 提供了在查询时更新多条文档的能力（类似 `SQL UPDATE-WHERE`）。详见 {ref}/docs-update-by-query.html[`docs-update-by-query` API]
 
 === 删除文档
 
-删除一个文档十分简单。下例演示了如果删除 ID 为 2 的 customer。
+删除一条文档十分简单。下例演示了如果删除 ID 为 2 的 customer。
 
 [source,js]
 --------------------------------------------------
@@ -602,7 +602,7 @@ DELETE /customer/doc/2?pretty
 
 除了索引、更新和删除文档外，Elasticsearch 还提供了 {ref}/docs-bulk.html[`_bulk` API] 操作执行上述任何操作的能力。这个功能十分重要，因为它在执行多个操作时提供了一个非常有效的机制，并尽可能减少网络往返。
 
-作为一个快速例子，下面用 bulk 操作同时索引了两个文档 （ID 1 - John Doe 和 ID 2 - Jane Doe）。
+作为一个快速例子，下面用 bulk 操作同时索引了两条文档 （ID 1 - John Doe 和 ID 2 - Jane Doe）。
 
 [source,js]
 --------------------------------------------------
@@ -614,7 +614,7 @@ POST /customer/doc/_bulk?pretty
 --------------------------------------------------
 // CONSOLE
 
-下例使用 bulk 操作更新了第一个文档（ID 为 1）并删除了第二个文档（ID 为 2）。
+下例使用 bulk 操作更新了第一条文档（ID 为 1）并删除了第二条文档（ID 为 2）。
 This example updates the first document (ID of 1) and then deletes the second document (ID of 2) in one bulk operation:
 
 [source,sh]
@@ -631,12 +631,12 @@ POST /customer/doc/_bulk?pretty
 
 Bulk API 不会因为一个操作失败而失败。如果一个动作因为某种原因失败了，它将继续执行剩下的动作。 Bulk API返回时将为每个操作提供一个状态（与发送的顺序相同），以便检查特定操作是否失败。
 
-== Exploring Your Data
+== 探究你的数据
 
 [float]
-=== Sample Dataset
+=== 样本数据集
 
-Now that we've gotten a glimpse of the basics, let's try to work on a more realistic dataset. I've prepared a sample of fictitious JSON documents of customer bank account information. Each document has the following schema:
+现在我们已经掌握了一些基本知识，让我们尝试一些更现实的数据集。 我准备了一个关于客户银行账户信息的虚构的 JSON 文档样本。 每条文档都模式如下：
 
 [source,js]
 --------------------------------------------------
@@ -656,12 +656,12 @@ Now that we've gotten a glimpse of the basics, let's try to work on a more reali
 --------------------------------------------------
 // NOTCONSOLE
 
-For the curious, this data was generated using http://www.json-generator.com/[`www.json-generator.com/`], so please ignore the actual values and semantics of the data as these are all randomly generated.
+为了数据多样，这些数据是使用 http://www.json-generator.com/[`www.json-generator.com/`] 生成的，索引请忽略数据实际值和语义，因为这些数据都是随机产生的。
 
 [float]
-=== Loading the Sample Dataset
+=== 加载数据样本集
 
-You can download the sample dataset (accounts.json) from https://github.com/elastic/elasticsearch/blob/master/docs/src/test/resources/accounts.json?raw=true[here]. Extract it to our current directory and let's load it into our cluster as follows:
+你可以从 https://github.com/elastic/elasticsearch/blob/master/docs/src/test/resources/accounts.json?raw=true[here] 下载数据集（accounts.json）。解压到我们当前的目录下，并使用如下方法将其加载到集群中：
 
 [source,sh]
 --------------------------------------------------
@@ -682,7 +682,7 @@ GET /_cat/indices?v
 // TEST[setup:bank]
 ////
 
-And the response:
+响应如下：
 
 [source,txt]
 --------------------------------------------------
@@ -692,13 +692,14 @@ yellow open   bank  l7sSYV2cQXmu6_4rJWVIww   5   1       1000            0    12
 // TESTRESPONSE[s/128.6kb/\\d+(\\.\\d+)?[mk]?b/]
 // TESTRESPONSE[s/l7sSYV2cQXmu6_4rJWVIww/.+/ _cat]
 
-Which means that we just successfully bulk indexed 1000 documents into the bank index (under the account type).
+这意味着我们已经成功的将 1000 条文档批量索引到 bank 索引中（类型为 account ）。
 
-=== The Search API
+=== 搜索 API
 
-Now let's start with some simple searches. There are two basic ways to run searches: one is by sending search parameters through the {ref}/search-uri-request.html[REST request URI] and the other by sending them through the {ref}/search-request-body.html[REST request body]. The request body method allows you to be more expressive and also to define your searches in a more readable JSON format. We'll try one example of the request URI method but for the remainder of this tutorial, we will exclusively be using the request body method.
+现在我们可以开始一些简单的搜索。有两种基本方法执行搜索操作：一种是通过 {ref}/search-uri-request.html[REST request URI]  发送搜索参数，另外一种是通过 {ref}/search-request-body.html[REST request body] 发送搜索请求。
+请求体方法更具表现性，并以更易读的 JSON 格式定义搜索。我们将尝试一个请求 URI 的例子，但在本教程的剩余部分中，我们将专门使用请求体方法。
 
-The REST API for search is accessible from the `_search` endpoint. This example returns all documents in the bank index:
+用于搜索的 REST API 可用 `_search` 访问。下例返回了 bank 索引的所有文档：
 
 [source,js]
 --------------------------------------------------
@@ -707,9 +708,9 @@ GET /bank/_search?q=*&sort=account_number:asc&pretty
 // CONSOLE
 // TEST[continued]
 
-Let's first dissect the search call. We are searching (`_search` endpoint) in the bank index, and the `q=*` parameter instructs Elasticsearch to match all documents in the index. The `sort=account_number:asc` parameter indicates to sort the results using the `account_number` field of each document in an ascending order. The `pretty` parameter, again, just tells Elasticsearch to return pretty-printed JSON results.
+首先解析搜索调用，我们在 bank 索引中进行搜索（`_search` ），同时 `q=*` 参数表示匹配索引中的所有文档。`sort=account_number:asc` 参数表示对所有返回的文档结果按 account_number 升序排序。`pretty` 参数告诉 Elasticsearch 返回完美排版的 JSON 结果集。
 
-And the response (partially shown):
+响应如下（部分展示）:
 
 [source,js]
 --------------------------------------------------
@@ -747,18 +748,18 @@ And the response (partially shown):
 // TESTRESPONSE[s/"took" : 63/"took" : $body.took/]
 // TESTRESPONSE[s/\.\.\./$body.hits.hits.2, $body.hits.hits.3, $body.hits.hits.4, $body.hits.hits.5, $body.hits.hits.6, $body.hits.hits.7, $body.hits.hits.8, $body.hits.hits.9/]
 
-As for the response, we see the following parts:
+响应结果可以观察到如下部分：
 
-* `took` – time in milliseconds for Elasticsearch to execute the search
-* `timed_out` – tells us if the search timed out or not
-* `_shards` – tells us how many shards were searched, as well as a count of the successful/failed searched shards
-* `hits` – search results
-* `hits.total` – total number of documents matching our search criteria
-* `hits.hits` – actual array of search results (defaults to first 10 documents)
-* `hits.sort` - sort key for results (missing if sorting by score)
-* `hits._score` and `max_score` - ignore these fields for now
+* `took` – Elasticsearch 执行搜索的时间，单位为毫秒
+* `timed_out` – 是否超时
+* `_shards` – 搜索了多少分片，以及搜索 成功/失败 的分片数
+* `hits` – 搜索结果集
+* `hits.total` – 复合搜索条件的文件总数
+* `hits.hits` – 实际搜索结果数组（默认前 10 条）
+* `hits.sort` - 结果排序的字段（没有指定则以 score 排序）
+* `hits._score` 和 `max_score` - 现在可以忽略这些字段
 
-Here is the same exact search above using the alternative request body method:
+下面是使用请求体的搜索替代方法：
 
 [source,js]
 --------------------------------------------------
@@ -773,7 +774,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-The difference here is that instead of passing `q=*` in the URI, we POST a JSON-style query request body to the `_search` API. We'll discuss this JSON query in the next section.
+最大的不同是在 URI 中不传递 `q=*`，我们为 `_search` API POST 一个 JSON-style 查询请求体。具体的 JSON 查询将在下一部分讨论.
 
 ////
 Hidden response just so we can assert that it is indeed the same but don't have
@@ -817,13 +818,13 @@ to clutter the docs with it:
 
 ////
 
-It is important to understand that once you get your search results back, Elasticsearch is completely done with the request and does not maintain any kind of server-side resources or open cursors into your results. This is in stark contrast to many other platforms such as SQL wherein you may initially get a partial subset of your query results up-front and then you have to continuously go back to the server if you want to fetch (or page through) the rest of the results using some kind of stateful server-side cursor.
+需要明白的是，一旦你得到了搜索结果，ELasticsearch 则完成了这次请求并不会维护任何服务端资源或者为结果集开一个游标。这与类似 SQL 的其他平台形成了鲜明对比，其他平台可能会先获得查询的部分结果集，在你还需要获取（翻阅）剩下的结果时使用某种有状态的服务端游标。
 
-=== Introducing the Query Language
+=== 查询语言介绍
 
-Elasticsearch provides a JSON-style domain-specific language that you can use to execute queries. This is referred to as the {ref}/query-dsl.html[Query DSL]. The query language is quite comprehensive and can be intimidating at first glance but the best way to actually learn it is to start with a few basic examples.
+Elasticsearch 提供了一种执行查询时的 JSON-style 的特定领域语言。这常被称为 {ref}/query-dsl.html[Query DSL]。这种查询语言十分全面，乍看可能会被吓到，但是实际上最好的方法是先从一些简单的例子开始学习。
 
-Going back to our last example, we executed this query:
+回到上一个例子，我们执行了以下查询：
 
 [source,js]
 --------------------------------------------------
@@ -835,11 +836,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-Dissecting the above, the `query` part tells us what our query definition is and the `match_all` part is simply the type of query that we want to run. The `match_all` query is simply a search for all documents in the specified index.
+解析上述内容，`query` 部分高速我们查询的定义是什么，`match_all` 是我们想执行的查询类型。`match_all` 在搜索时对指定索引返回所有文档。
 
-In addition to the `query` parameter, we also can pass other parameters to
-influence the search results. In the example in the section above we passed in
-`sort`, here we pass in `size`:
+除了 `query` 参数，我们可以传递其他参数以影响搜索结果。上面的例子中我们传递了 `sort`，下面我们传递 `size`。
 
 [source,js]
 --------------------------------------------------
@@ -852,9 +851,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-Note that if `size` is not specified, it defaults to 10.
+注意如果 `size` 没有指定，默认是 10。
 
-This example does a `match_all` and returns documents 11 through 20:
+下例执行了 `match_all` 并返回 11 到 20 的文档结果。
 
 [source,js]
 --------------------------------------------------
@@ -868,9 +867,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-The `from` parameter (0-based) specifies which document index to start from and the `size` parameter specifies how many documents to return starting at the from parameter. This feature is useful when implementing paging of search results. Note that if `from` is not specified, it defaults to 0.
+`from` 参数（从 0 开始）表明索引文档的开始位置，`size` 参数表明从 from 参数开始返回多少文档。这个功能在实现分页功能时十分有用。注意 `from` 没有指定时默认为 0。
 
-This example does a `match_all` and sorts the results by account balance in descending order and returns the top 10 (default size) documents.
+下例执行了 `match_all` 并按降序对 balance 进行排序，且返回了前 10（默认大小） 条文档。
 
 [source,js]
 --------------------------------------------------
@@ -883,11 +882,11 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-=== Executing Searches
+=== 执行搜索
 
-Now that we have seen a few of the basic search parameters, let's dig in some more into the Query DSL. Let's first take a look at the returned document fields. By default, the full JSON document is returned as part of all searches. This is referred to as the source (`_source` field in the search hits). If we don't want the entire source document returned, we have the ability to request only a few fields from within source to be returned.
+我们已经知道了一些基本搜索参数，现在挖掘一些 Query DSL 的其他内容。先看一眼返回的文档字段。默认情况下，搜索的返回结果中有一个完整的 JSON 文档。这个 JSON 被称为源（搜索匹配中的 `_source` 字段）。如果我们不需要返回整个源文档，我们可以请求源内容中的部分字段。
 
-This example shows how to return two fields, `account_number` and `balance` (inside of `_source`), from the search:
+下例展示了如何从搜索中返回 `account_number` 和 `balance`(`_source` 内部)两个字段：
 
 [source,js]
 --------------------------------------------------
@@ -900,13 +899,13 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-Note that the above example simply reduces the `_source` field. It will still only return one field named `_source` but within it, only the fields `account_number` and `balance` are included.
+需要注意的是上例中只会减少 `_source` 内的字段。它仍然会返回 `_source`，但该字段中仅仅包含 `account_number` 和 `balance` 字段。
 
-If you come from a SQL background, the above is somewhat similar in concept to the `SQL SELECT FROM` field list.
+如果你有 SQL 背景可知上例与 `SQL SELECT FROM` 的概念相似。
 
-Now let's move on to the query part. Previously, we've seen how the `match_all` query is used to match all documents. Let's now introduce a new query called the {ref}/query-dsl-match-query.html[`match` query], which can be thought of as a basic fielded search query (i.e. a search done against a specific field or set of fields).
+现在把注意力转移到 query 部分。之前我们已经见过使用 `match_all` 查询匹配所有文档。现在介绍一种被称为 {ref}/query-dsl-match-query.html[`match` query] 的新查询方法，这个查询可以看做是基本的字段搜索查询（即针对特定字段或字段集进行的搜索）。
 
-This example returns the account numbered 20:
+下例返回 accout 值为 20 的结果：
 
 [source,js]
 --------------------------------------------------
@@ -918,7 +917,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-This example returns all accounts containing the term "mill" in the address:
+下例返回 address 字段中包含 "mill" 词的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -930,7 +929,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-This example returns all accounts containing the term "mill" or "lane" in the address:
+下例返回 address 字段中包含 "mill" 或 "lane" 词的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -942,7 +941,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-This example is a variant of `match` (`match_phrase`) that returns all accounts containing the phrase "mill lane" in the address:
+下例是 `match` (`match_phrase`)的变体，它返回 address 字段包含 "mill lane"  短语的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -954,9 +953,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-Let's now introduce the {ref}/query-dsl-bool-query.html[`bool` query]. The `bool` query allows us to compose smaller queries into bigger queries using boolean logic.
+现在介绍 {ref}/query-dsl-bool-query.html[`bool` query]。`bool` 查询允许我们将多个小查询按 boolean 逻辑组合成大查询。
 
-This example composes two `match` queries and returns all accounts containing "mill" and "lane" in the address:
+下例组合了两个 `match` 查询并返回 address 字段中包含 "mill" 和 "lane" 词的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -975,9 +974,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-In the above example, the `bool must` clause specifies all the queries that must be true for a document to be considered a match.
+上例中，`bool must` 子句指定匹配的文档必须符合所有查询条件。
 
-In contrast, this example composes two `match` queries and returns all accounts containing "mill" or "lane" in the address:
+相反，下例组合了两个 `match` 查询并返回 address 字段中包含 "mill" 或 "lane" 词的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -996,9 +995,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-In the above example, the `bool should` clause specifies a list of queries either of which must be true for a document to be considered a match.
+上例中，`bool should` 子句指定了一个查询列表，只要满足任意一个查询条件就被视为匹配的文档。
 
-This example composes two `match` queries and returns all accounts that contain neither "mill" nor "lane" in the address:
+下例组合了两个 `match` 查询并返回 address 字段中既不包含 "mill" 也不包含 "lane" 词的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -1017,11 +1016,11 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-In the above example, the `bool must_not` clause specifies a list of queries none of which must be true for a document to be considered a match.
+上例中，`bool must_not` 子句指定了一个查询列表，所有查询条件都不满足才被视为匹配的文档。
 
-We can combine `must`, `should`, and `must_not` clauses simultaneously inside a `bool` query. Furthermore, we can compose `bool` queries inside any of these `bool` clauses to mimic any complex multi-level boolean logic.
+我们可以在一个 `bool` 查询中结合 `must`、 `should`、 和 `must_not` 子句。此外，我们可以在任意 `bool` 子句中编写 `bool` 查询来模拟任何复杂的多级 boolean 逻辑。
 
-This example returns all accounts of anybody who is 40 years old but doesn't live in ID(aho):
+下例返回了年龄为 40 岁且 不住在 ID（aho）的账户。
 
 [source,js]
 --------------------------------------------------
@@ -1042,15 +1041,15 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-=== Executing Filters
+=== 执行过滤器
 
-In the previous section, we skipped over a little detail called the document score (`_score` field in the search results). The score is a numeric value that is a relative measure of how well the document matches the search query that we specified. The higher the score, the more relevant the document is, the lower the score, the less relevant the document is.
+上一节中，我们跳过了关于 score （搜索结果的 `_score` 字段）细节。score 是表示文档与指定搜索查询的匹配程度的一个数值。score 越高，文档越相关，score 越低，文档越不相关。
 
-But queries do not always need to produce scores, in particular when they are only used for "filtering" the document set. Elasticsearch detects these situations and automatically optimizes query execution in order not to compute useless scores.
+但是查询并不总是需要生成分数，特别是当它们仅仅用于 "filtering" 文档集。Elasticsearch 检测到这种场景时便会自动优化查询执行以便不计算无用的分数。
 
-The {ref}/query-dsl-bool-query.html[`bool` query] that we introduced in the previous section also supports `filter` clauses which allow to use a query to restrict the documents that will be matched by other clauses, without changing how scores are computed. As an example, let's introduce the {ref}/query-dsl-range-query.html[`range` query], which allows us to filter documents by a range of values. This is generally used for numeric or date filtering.
+上一节中介绍的 {ref}/query-dsl-bool-query.html[`bool` query] 同样支持 `filter` 子句，它允许使用 query 来限制将被其他子句匹配的文档，而不改变计算分数的方式。例如 {ref}/query-dsl-range-query.html[`range` query] 允许我们使用范围来过滤文档，这通常用于数字或日期过滤。
 
-This example uses a bool query to return all accounts with balances between 20000 and 30000, inclusive. In other words, we want to find accounts with a balance that is greater than or equal to 20000 and less than or equal to 30000.
+本例使用 bool 查询返回余额在 20000 到 30000 的所有账户。换句话说，我们要查找余额大于等于 20000 且 小于等于 30000 的所有账户。
 
 [source,js]
 --------------------------------------------------
@@ -1074,15 +1073,15 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-Dissecting the above, the bool query contains a `match_all` query (the query part) and a `range` query (the filter part). We can substitute any other queries into the query and the filter parts. In the above case, the range query makes perfect sense since documents falling into the range all match "equally", i.e., no document is more relevant than another.
+解析上述内容，bool 查询包含一个 `match_all` 查询（查询部分） 和一个 `range` 查询（过滤器部分）。我们可以使用任何其他查询替换为查询和过滤器部分。在这种情况下，range 查询是是十分有意义的因为落入该范围的文档是完全 "equally"，即没有哪个文档比其他文档更相关。
 
-In addition to the `match_all`, `match`, `bool`, and `range` queries, there are a lot of other query types that are available and we won't go into them here. Since we already have a basic understanding of how they work, it shouldn't be too difficult to apply this knowledge in learning and experimenting with the other query types.
+除了 `match_all`、 `match`、 `bool` 和 `range` 查询，还有很多其他查询类型可用，我们不在这里介绍。由于我们已经对其工作原理有了基本理解，索引将这些知识应用到其他查询类型的学习和实验并不难。
 
-=== Executing Aggregations
+=== 执行聚合
 
-Aggregations provide the ability to group and extract statistics from your data. The easiest way to think about aggregations is by roughly equating it to the SQL GROUP BY and the SQL aggregate functions. In Elasticsearch, you have the ability to execute searches returning hits and at the same time return aggregated results separate from the hits all in one response. This is very powerful and efficient in the sense that you can run queries and multiple aggregations and get the results back of both (or either) operations in one shot avoiding network roundtrips using a concise and simplified API.
+聚合提供了对数据分组和提取统计数据的能力。理解聚合最简单的方式是将其大致等同于 SQL GROUP BY 和 SQL 聚合功能。在 ELasticsearch 中，你可以在执行搜索并返回匹配结果时在响应中返回与匹配不同的聚合结果。这十分强大和高效的，你可以运行多个查询和多个聚合，并且一次获得所有（两个）操作结果，同时使用简化的 API 来避免网络往返。
 
-To start with, this example groups all the accounts by state, and then returns the top 10 (default) states sorted by count descending (also default):
+首先，下例按状态对所有账户分组，然后返回按降序（默认值）排序的前 10 个（默认）状态。
 
 [source,js]
 --------------------------------------------------
@@ -1101,14 +1100,14 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-In SQL, the above aggregation is similar in concept to:
+上面的聚合在 SQL 中类似如下表示：
 
 [source,sh]
 --------------------------------------------------
 SELECT state, COUNT(*) FROM bank GROUP BY state ORDER BY COUNT(*) DESC
 --------------------------------------------------
 
-And the response (partially shown):
+响应如下（部分展示）：
 
 [source,js]
 --------------------------------------------------
@@ -1167,12 +1166,11 @@ And the response (partially shown):
 --------------------------------------------------
 // TESTRESPONSE[s/"took": 29/"took": $body.took/]
 
-We can see that there are 27 accounts in `ID` (Idaho), followed by 27 accounts
-in `TX` (Texas), followed by 25 accounts in `AL` (Alabama), and so forth.
+我们可以看到有在 `ID` （Idaho）的 27 个账户，接下来是 `TX` （Texas）的 27 个账户，接下来是 `AL` （Alabama）的25个账户，等等。
 
-Note that we set `size=0` to not show search hits because we only want to see the aggregation results in the response.
+注意到我们设置 `size=0` 不展示搜索结果，因为我们只想在响应中看聚合结果。
 
-Building on the previous aggregation, this example calculates the average account balance by state (again only for the top 10 states sorted by count in descending order):
+在上面的聚合基础上，下例按状态（按数量降序排前 10 的状态）计算平均账户余额。
 
 [source,js]
 --------------------------------------------------
@@ -1198,9 +1196,9 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-Notice how we nested the `average_balance` aggregation inside the `group_by_state` aggregation. This is a common pattern for all the aggregations. You can nest aggregations inside aggregations arbitrarily to extract pivoted summarizations that you require from your data.
+请注意我们是如何嵌套 `group_by_state` 聚合内的 `average_balance` 聚合。这是聚合的一个通用模式，你可以在任意聚合内嵌套聚合以便从数据中提取所需汇总信息。
 
-Building on the previous aggregation, let's now sort on the average balance in descending order:
+在上面的聚合基础上，现在我们按降序对平均 balance 进行排序。
 
 [source,js]
 --------------------------------------------------
@@ -1229,7 +1227,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-This example demonstrates how we can group by age brackets (ages 20-29, 30-39, and 40-49), then by gender, and then finally get the average account balance, per age bracket, per gender:
+下例演示了如果按年龄段（20-29 岁，30-39 岁和 40-49 岁）进行分组，然后再按性别分组，最后得到每个年龄段中每个性别的平均账户 balance。
 
 [source,js]
 --------------------------------------------------
@@ -1276,8 +1274,8 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-There are many other aggregations capabilities that we won't go into detail here. The {ref}/search-aggregations.html[aggregations reference guide] is a great starting point if you want to do further experimentation.
+我们不会在这里详细介绍其他聚合功能。如果想进行进一步的尝试聚合可以参考 {ref}/search-aggregations.html[aggregations reference guide]。
 
 == Conclusion
 
-Elasticsearch is both a simple and complex product. We've so far learned the basics of what it is, how to look inside of it, and how to work with it using some of the REST APIs. Hopefully this tutorial has given you a better understanding of what Elasticsearch is and more importantly, inspired you to further experiment with the rest of its great features!
+Elasticsearch 是一个即简单又复杂的产品。到目前为止我们已经学习了一些基础知识、内部机制和一些 REST API 的使用。希望本教程能够让你加深对 Elasticsearch 的理解，更重要的是启发你进一步尝试其他的伟大功能。
