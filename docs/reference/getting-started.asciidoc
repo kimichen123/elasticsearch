@@ -186,7 +186,7 @@ image::images/msi_installer/msi_installer_plugins.png[]
 [[getting-started-msi-installer-success]]
 image::images/msi_installer/msi_installer_success.png[]
 
-默认情况下 Elasticsearch 会安装在 `%PROGRAMFILES%\Elastic\Elasticsearch`。在这导航并进入 bin 目录：
+默认情况下 Elasticsearch 会安装在 `%PROGRAMFILES%\Elastic\Elasticsearch` 。在这导航并进入 bin 目录：
 
 **命令提示符：**
 
@@ -250,7 +250,7 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 ./elasticsearch -Ecluster.name=my_cluster_name -Enode.name=my_node_name
 --------------------------------------------------
 
-还需注意的是标记为 http 的行提供了节点可访问的 HTTP 地址（`192.168.8.112`）和端口（`9200`）信息。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
+还需注意的是标记为 http 的行提供了节点可访问的 HTTP 地址（`192.168.8.112` ）和端口（`9200` ）信息。默认情况下，Elasticsearch 使用端口 `9200` 来提供 REST API 访问。如果需要，这个端口是可配置的。
 
 == 探索你的集群
 
@@ -268,7 +268,7 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 
 我们从一个基础健康校验开始来看看集群是如果工作的。我们将使用 curl 来演示，你也可以使用任何可以执行 HTTP/REST 调用的工具。假设我们处在 Elasticsearch 集群的节点上，接下来打打开一个新的命令执行窗口。
 
-为了检查集群健康，我们可以调用 {ref}/cat.html[`_cat` API]。你可以在 {kibana-ref}/console-kibana.html[Kibana's Console] 运行 "VIEW IN CONSOLE" ，或者点击下面的 "COPY AS CURL" 链接然后复制到终端执行 `curl`。
+为了检查集群健康，我们可以调用 {ref}/cat.html[`_cat` API]。你可以在 {kibana-ref}/console-kibana.html[Kibana's Console] 运行 "VIEW IN CONSOLE" ，或者点击下面的 "COPY AS CURL" 链接然后复制到终端执行 `curl` 。
 
 [source,js]
 --------------------------------------------------
@@ -836,7 +836,7 @@ GET /bank/_search
 
 解析上述内容，`query` 部分告诉我们查询的定义是什么，`match_all` 是我们想执行的查询类型。`match_all` 在搜索时对指定索引返回所有文档。
 
-除了 `query` 参数，我们可以传递其他参数以影响搜索结果。上面的例子中我们传递了 `sort`，下面我们传递 `size`。
+除了 `query` 参数，我们可以传递其他参数以影响搜索结果。上面的例子中我们传递了 `sort` ，下面我们传递 `size` 。
 
 [source,js]
 --------------------------------------------------
