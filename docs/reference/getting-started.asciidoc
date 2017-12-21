@@ -22,22 +22,22 @@ Elasticsearch 是一个高度可扩展的开源全文搜索和分析引擎。它
 [float]
 === 近实时 (NRT)
 
-Elasticsearch 是一个近实时搜索平台。这意味着从你索引文档到其可搜索会有一个轻微的延迟（通常是 1s）。
+Elasticsearch 是一个近实时搜索平台。这意味着从索引文档到文档可搜索会有一个轻微的延迟（通常是 1s）。
 
 [float]
 === 集群
 
 集群是一个或多个节点（服务器）的集合，这些节点共同保存所有数据并提供联合索引和搜索能力。一个集群由一个唯一名称标识，默认名称是 "elasticsearch"。这个名称很重要，因为如果节点被设置为按名称加入集群，那么节点就只能是集群的一部分。
 
-在不同的环境中请确保不要使用相同的集群名，否则可能导致节点加入错误的集群。例如，你可以使用 `logging-dev` 、`logging-stage` 、`logging-prod` 来标识开发、阶段、生产集群。
+在不同的环境中请确保不要使用相同的集群名，否则可能导致节点加入错误的集群。例如，你可以使用 `logging-dev` 、`logging-stage` 、`logging-prod` 来标识开发集群、展示集群、生产集群。
 
 注意只有一个节点的集群是完全合适和合理的。此外，你也可以有多个唯一名称标识的独立集群。
 
 [float]
 === 节点
 
-节点是集群中的具有存储数据以及参与集群索引、搜索功能的单台服务器。和集群类似，一个节点由一个名称标识，默认情况下该名称是在启动时分配的一个随机通用唯一识别码（UUID）。
-如果你不想要默认名称则可以自定义。节点名称在管理和确认网络中哪些服务器在 Elasticsearch 集群的作用十分重要。
+节点是集群中具有存储数据及参与集群索引、搜索功能的一台服务器。和集群类似，一个节点由一个名称标识，默认情况下该名称是在启动时分配的一个随机通用唯一识别码（UUID）。
+如果你不想要默认名称可以自定义。节点名称在管理和确认网络中哪些服务器在 Elasticsearch 集群的作用十分重要。
 
 节点可以配置成按集群名称加入特定集群。默认情况下，每个节点设置成加入名为 `elasticsearch` 的集群，这意味着一旦你启动了网络中的多个节点，且假设这些节点可以相互发现，那么这些节点将自动组成一个名为 `elasticsearch` 的集群。
 
@@ -60,7 +60,7 @@ deprecated[6.0.0,参考 <<removal-of-types>>]
 [float]
 === 文档
 
-文档是可被索引的基本单元。例如你可以使用三条文档分布存储单个客户、单个产品以及单个订单。文档是由互联网中常见的数据交换格式 http://json.org/[JSON] (JavaScript Object Notation) 呈现的。
+文档是可被索引的基本单元。例如你可以使用三条文档分别存储单个客户、单个产品以及单个订单。文档是由互联网中常见的数据交换格式 http://json.org/[JSON] (JavaScript Object Notation) 呈现的。
 
 在索引/类型中可以存储任意多的文档。需要注意的是尽管文档表面上是存储在索引中，但实际上文档必须被 索引/分配 给索引内的类型。
 
@@ -88,7 +88,7 @@ deprecated[6.0.0,参考 <<removal-of-types>>]
 * 它允许你扩展你的 搜索量/吞吐量，因为搜索可在所有副本上执行。
 
 
-总之，每个索引可以分为多个分片。一个索引可以有 0 个（意味着每一副本）或者多个副本。一旦设置了副本，每个索引都将有主分片（原始分片）和副分片（主分片的拷贝）。分片和副本数在创建索引时定义，创建索引之后，你可以随时动态改变副本数，但是不能随意改变分片数。
+总之，每个索引可以分为多个分片。一个索引可以有 0 个（意味着没有副本）或者多个副本。一旦设置了副本，每个索引都将有主分片（原始分片）和副分片（主分片的拷贝）。分片和副本数在创建索引时定义，创建索引之后，你可以随时动态改变副本数，但是不能随意改变分片数。
 
 默认情况下，Elasticsearch 中的每个索引由 5 个主分片和 1 个副本组成，这意味着你的集群至少需要两个节点，索引将包含 5 个主分片和 5 个副本（1个完整副本），总共10个分片。
 
@@ -99,7 +99,7 @@ NOTE: 每个 Elasticsearch 分片是一个 Lucence 索引。一个 Lucene 索引
 
 == 安装
 
-Elasticsearch 最低需要Java 8。 在撰写本文时强烈建议你使用 Oracle JDK 版本 {jdk}。Java 不同平台的安装方法不同，所以我们不会在这里详细讨论安装细节。Oracle 的建议安装文档可以在 http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[Oracle's website] 找到。得知道的是，在安装 Elasticsearch 之前请先检查你的 Java 版本（请按需进行 安装/升级）：
+Elasticsearch 最低需要Java 8 支持。 在撰写本文时强烈建议你使用 Oracle JDK 版本 {jdk}。Java 在不同平台的安装方法不同，所以我们不会在这里详细讨论安装细节。Oracle 的建议安装文档可以在 http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html[Oracle's website] 找到。需要知道的是，在安装 Elasticsearch 之前请先检查你的 Java 版本（请按需进行 安装/升级）：
 
 [source,sh]
 --------------------------------------------------
@@ -136,7 +136,7 @@ tar -xvf elasticsearch-{version}.tar.gz
 cd elasticsearch-{version}/bin
 --------------------------------------------------
 
-下面我们准备启动我们的节点和单集群：
+下面我们准备启动节点和单集群：
 
 [source,sh]
 --------------------------------------------------
@@ -156,11 +156,11 @@ brew install elasticsearch
 [float]
 === MSI Windows Installer 安装示例
 
-对于 Windows 用户，我们推荐使用 {ref}/windows.html[MSI Installer package] 安装。 这个包包含的图形用户界面（GUI）可以引导你完成安装。
+对于 Windows 用户，我们推荐使用 {ref}/windows.html[MSI Installer package] 安装。 它包含的图形用户界面（GUI）可以引导你完成安装。
 
 首先，从 https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{version}.msi 下载 Elasticsearch {version} MSI。
 
-然后双击下载的文件以启动 GUI。在第一个界面中选择部署目录：
+然后双击下载的文件以启动 GUI。在第一个界面中选择安装目录：
 
 [[getting-started-msi-installer-locations]]
 image::images/msi_installer/msi_installer_locations.png[]
@@ -262,11 +262,11 @@ cd $env:PROGRAMFILES\Elastic\Elasticsearch\bin
 * 检查集群、节点、索引健康、索引状态和统计信息
 * 管理集群、节点、索引数据和元数据
 * 对你的索引执行 CRUD （创建、读取、更新、删除）和搜索操作
-* 执类似分页、排序、过滤、脚本、聚合和其他高级操作
+* 执行类似分页、排序、过滤、脚本、聚合和其他高级操作
 
 === 集群健康
 
-我们从一个基础健康校验开始来看看集群是如果工作的。我们将使用 curl 来演示，你也可以使用任何可以执行 HTTP/REST 调用的工具。假设我们处在 Elasticsearch 集群的节点上，接下来打打开一个新的命令执行窗口。
+我们从一个基础健康校验开始来看看集群是如果工作的。我们将使用 curl 来演示，你也可以使用任何可以执行 HTTP/REST 调用的工具。假设我们处在 Elasticsearch 集群的节点上，接下来打开一个新的命令执行窗口。
 
 为了检查集群健康，我们可以调用 {ref}/cat.html[`_cat` API]。你可以在 {kibana-ref}/console-kibana.html[Kibana's Console] 运行 "VIEW IN CONSOLE" ，或者点击下面的 "COPY AS CURL" 链接然后复制到终端执行 `curl` 。
 
@@ -403,7 +403,7 @@ PUT /customer/doc/1?pretty
 
 通过上文可知，可以发现有一个新的 customer 文档成功的被创建。这条文档在索引时指定其内部 id 为 1。
 
-请注意 Elasticsearch 不需要你在索引文档前先显式的创建索引。在上面的例子中，如果 customer 索引不存在Elasticsearch 将自动创建一个 customer 索引。
+请注意 Elasticsearch 不需要你在索引文档前先显式的创建索引。在上面的例子中，如果 customer 索引不存在 Elasticsearch 将自动创建一个 customer 索引。
 
 现在取回刚刚索引的文档：
 
@@ -522,7 +522,7 @@ PUT /customer/doc/2?pretty
 
 上文索引了一个 ID 为 2 的新文档。
 
-当索引文档时 ID 是可选的。如果没有指定，Elasticsearch 会为文档生成一个随机 ID。ELasticsearch 生成的实际 ID（包括上面提显式指定的 ID） 将作为索引 API 调用的一部分而返回。
+当索引文档时 ID 是可选的。如果没有指定，Elasticsearch 会为文档生成一个随机 ID。ELasticsearch 生成的实际 ID（包括上面显式指定的 ID） 将作为索引 API 调用的一部分而返回。
 
 下面这个例子展示了索引文档时不显式指定 ID：
 
@@ -536,7 +536,7 @@ POST /customer/doc?pretty
 // CONSOLE
 // TEST[continued]
 
-注意上例中因为我们没有指定 ID 所有我们使用 `POST` 代替 PUT。
+注意上例中因为我们没有指定 ID 所以我们使用 `POST` 代替 PUT。
 
 === 更新文档
 
@@ -584,7 +584,7 @@ Elasticsearch 提供了在查询时更新多条文档的能力（类似 `SQL UPD
 
 === 删除文档
 
-删除一条文档十分简单。下例演示了如果删除 ID 为 2 的 customer。
+删除一条文档十分简单。下例演示了如何删除 ID 为 2 的 customer。
 
 [source,js]
 --------------------------------------------------
@@ -613,7 +613,6 @@ POST /customer/doc/_bulk?pretty
 // CONSOLE
 
 下例使用 bulk 操作更新了第一条文档（ID 为 1）并删除了第二条文档（ID 为 2）。
-This example updates the first document (ID of 1) and then deletes the second document (ID of 2) in one bulk operation:
 
 [source,sh]
 --------------------------------------------------
@@ -629,12 +628,12 @@ POST /customer/doc/_bulk?pretty
 
 Bulk API 不会因为一个操作失败而失败。如果一个动作因为某种原因失败了，它将继续执行剩下的动作。 Bulk API返回时将为每个操作提供一个状态（与发送的顺序相同），以便检查特定操作是否失败。
 
-== 探究你的数据
+== 探索你的数据
 
 [float]
 === 样本数据集
 
-现在我们已经掌握了一些基本知识，让我们尝试一些更现实的数据集。 我准备了一个关于客户银行账户信息的虚构的 JSON 文档样本。 每条文档结构如下：
+现在我们已经掌握了一些基本知识，让我们尝试一些更现实的数据集。 这里准备了一个关于客户银行账户信息的虚构的 JSON 文档样本。 每条文档结构如下：
 
 [source,js]
 --------------------------------------------------
@@ -654,7 +653,7 @@ Bulk API 不会因为一个操作失败而失败。如果一个动作因为某�
 --------------------------------------------------
 // NOTCONSOLE
 
-为了数据多样，这些数据都是使用 http://www.json-generator.com/[`www.json-generator.com/`] 生成的，所以请忽略数据实际值和语义，因为这些数据都是随机产生的。
+为了保证数据多样，这些数据都是使用 http://www.json-generator.com/[`www.json-generator.com/`] 生成的，所以请忽略数据实际值和语义，因为这些数据都是随机产生的。
 
 [float]
 === 加载数据样本集
@@ -694,8 +693,8 @@ yellow open   bank  l7sSYV2cQXmu6_4rJWVIww   5   1       1000            0    12
 
 === 搜索 API
 
-现在我们可以开始一些简单的搜索。有两种执行搜索操作基本方法：一种是通过 {ref}/search-uri-request.html[REST request URI]  发送搜索参数，另外一种是通过 {ref}/search-request-body.html[REST request body] 发送搜索请求。
-请求体方法更具表现性，并以更易读的 JSON 格式定义搜索。我们将尝试一个请求 URI 的例子，但在本教程的剩余部分中，我们将专门使用请求体方法。
+现在我们可以开始一些简单的搜索。有两种执行搜索操作的基本方法：一种是通过 {ref}/search-uri-request.html[REST request URI]  发送搜索参数，另外一种是通过 {ref}/search-request-body.html[REST request body] 发送搜索请求。
+请求体方法更具表现性，并以更易读的 JSON 格式定义搜索。我们将尝试一个请求 URI 的例子，但在本教程的剩余部分中，我们将仅仅使用请求体方法。
 
 用于搜索的 REST API 可用 `_search` 访问。下例返回了 bank 索引的所有文档：
 
@@ -706,7 +705,7 @@ GET /bank/_search?q=*&sort=account_number:asc&pretty
 // CONSOLE
 // TEST[continued]
 
-首先解析搜索调用，我们在 bank 索引中进行搜索（ `_search` ），同时 `q=*` 参数表示匹配索引中的所有文档。`sort=account_number:asc` 参数表示对所有返回的文档结果按 account_number 升序排序。`pretty` 参数告诉 Elasticsearch 返回完美排版的 JSON 结果集。
+首先解析搜索调用，我们在 bank 索引中执行搜索（ `_search` ），同时 `q=*` 参数表示匹配索引中的所有文档。`sort=account_number:asc` 参数表示对所有返回的文档结果按 account_number 升序排序。`pretty` 参数告诉 Elasticsearch 返回完美排版的 JSON 结果集。
 
 响应如下（部分展示）:
 
@@ -834,7 +833,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-解析上述内容，`query` 部分告诉我们查询的定义是什么，`match_all` 是我们想执行的查询类型。`match_all` 在搜索时对指定索引返回所有文档。
+解析上述内容，`query` 部分告诉我们查询的定义是什么，`match_all` 是我们想执行的查询类型。`match_all` 在搜索时表示对指定索引返回所有文档。
 
 除了 `query` 参数，我们可以传递其他参数以影响搜索结果。上面的例子中我们传递了 `sort` ，下面我们传递 `size` 。
 
@@ -1018,7 +1017,7 @@ GET /bank/_search
 
 我们可以在一个 `bool` 查询中结合 `must` 、 `should` 、 和 `must_not` 子句。此外，我们可以在任意 `bool` 子句中编写 `bool` 查询来模拟任何复杂的多级 boolean 逻辑。
 
-下例返回了年龄为 40 岁且 不住在 ID（aho）的账户。
+下例返回了年龄为 40 岁且不住在 ID（aho）的账户。
 
 [source,js]
 --------------------------------------------------
@@ -1071,15 +1070,15 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-解析上述内容，bool 查询包含一个 `match_all` 查询（查询部分） 和一个 `range` 查询（过滤器部分）。我们可以使用任何其他查询替换为查询和过滤器部分。在这种情况下，range 查询是是十分有意义的因为落入该范围的文档完全 "equally"，即没有哪个文档比其他文档更相关。
+解析上述内容，bool 查询包含一个 `match_all` 查询（查询部分） 和一个 `range` 查询（过滤器部分）。我们可以将任何其他查询替换为查询和过滤器部分。在这种情况下，range 查询是是十分有意义的因为落入该范围的文档完全 "equally"，即没有哪个文档比其他文档更相关。
 
-除了 `match_all` 、 `match` 、 `bool` 和 `range` 查询，还有很多其他查询类型可用，我们不在这里介绍。由于我们已经对其工作原理有了基本理解，所以将这些知识应用到其他查询进行学习和实验并不难。
+除了 `match_all` 、 `match` 、 `bool` 和 `range` 查询，还有很多查询类型可用，我们不在这里介绍。由于我们已经对其工作原理有了基本理解，所以将这些知识应用到其他查询进行学习和实验并不难。
 
 === 执行聚合
 
-聚合提供了数据分组和提取统计数据的能力。理解聚合最简单的方法是将其大致等同于 SQL GROUP BY 和 SQL 聚合功能。在 ELasticsearch 中，你可以在执行搜索并返回匹配结果时在响应中返回与匹配不同的聚合结果。这十分强大和高效的，你可以运行多个查询和多个聚合，并且一次获得所有（两个）操作结果，同时使用简化的 API 来避免网络往返。
+聚合提供了数据分组和提取统计数据的能力。理解聚合最简单的方法是将其大致等同于 SQL GROUP BY 和 SQL 聚合功能。在 ELasticsearch 中，你可以在执行搜索并返回匹配结果时在响应中返回与匹配不同的聚合结果。这十分强大和高效，你可以运行多个查询和多个聚合，并且一次获得所有（两个）操作结果，同时使用简化的 API 来避免网络往返。
 
-首先，下例按状态对所有账户分组，然后返回按降序（默认值）排序的前 10 个（默认）州。
+首先，下例按状态对所有账户分组，然后返回按降序（默认值）排列的前 10 个（默认）州。
 
 [source,js]
 --------------------------------------------------
@@ -1164,11 +1163,11 @@ SELECT state, COUNT(*) FROM bank GROUP BY state ORDER BY COUNT(*) DESC
 --------------------------------------------------
 // TESTRESPONSE[s/"took": 29/"took": $body.took/]
 
-我们可以看到有 27 个账户 住在 `ID` （Idaho） ，接下来是 `TX` （Texas）的 27 个账户，接下来是 `AL` （Alabama）的 25 个账户，等等。
+我们可以看到有 27 个账户住在 `ID` （Idaho） ，接下来是 `TX` （Texas）的 27 个账户，接下来是 `AL` （Alabama）的 25 个账户，等等。
 
 注意到我们设置 `size=0` 不展示搜索结果，因为我们只想在响应中看聚合结果。
 
-在上面的聚合基础上，下例按州（按数量降序排前 10 的状态）计算平均账户余额。
+在上面的聚合基础上，下例计算每个州（按数量降序排前 10 的状态）的平均账户余额。
 
 [source,js]
 --------------------------------------------------
@@ -1225,7 +1224,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-下例演示了如果按年龄段（20-29 岁，30-39 岁和 40-49 岁）进行分组，然后再按性别分组，最后得到每个年龄段中每个性别的平均账户 balance。
+下例演示了如何先按年龄段（20-29 岁，30-39 岁和 40-49 岁）进行分组，然后再按性别分组，最后得到每个年龄段中每个性别的平均账户 balance。
 
 [source,js]
 --------------------------------------------------
@@ -1276,4 +1275,4 @@ GET /bank/_search
 
 == 结论
 
-Elasticsearch 是一个即简单又复杂的产品。到目前为止我们已经学习了一些基础知识、内部机制和一些 REST API 的使用。希望本教程能够让你加深对 Elasticsearch 的理解，更重要的是启发你进一步尝试其他重要功能。
+Elasticsearch 是一个即简单又复杂的产品。到目前为止我们已经学习了一些基础知识、内部机制和一些 REST API 的使用。希望本教程能够让你加深对 Elasticsearch 的理解，更重要为你进一步尝试其他重要功能带来启发。
