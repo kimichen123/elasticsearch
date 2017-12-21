@@ -897,7 +897,7 @@ GET /bank/_search
 // CONSOLE
 // TEST[continued]
 
-需要注意的是上例中只会减少 `_source` 内的字段。它仍然会返回 `_source` ，但该字段中仅仅包含 `account_number` 和 `balance` 字段。
+需要注意的是上例中只会减少 `_source` 内的字段。它仍然会返回 `_source` 字段 ，但该字段中仅仅包含 `account_number` 和 `balance` 字段。
 
 如果你有 SQL 背景可知上例与 `SQL SELECT FROM` 的概念相似。
 
